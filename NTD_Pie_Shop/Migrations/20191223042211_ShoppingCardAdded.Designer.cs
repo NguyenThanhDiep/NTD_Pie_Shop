@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NTD_Pie_Shop.Models;
 
 namespace NTD_Pie_Shop.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191223042211_ShoppingCardAdded")]
+    partial class ShoppingCardAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,82 +54,6 @@ namespace NTD_Pie_Shop.Migrations
                             CategoryId = 3,
                             CategoryName = "Seasonal pies"
                         });
-                });
-
-            modelBuilder.Entity("NTD_Pie_Shop.Models.Order", b =>
-                {
-                    b.Property<int>("OrderId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("AddressLine1")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("AddressLine2")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("City")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Country")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("OrderPlaced")
-                        .HasColumnType("datetime2");
-
-                    b.Property<decimal>("OrderTotal")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("State")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ZipCode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("OrderId");
-
-                    b.ToTable("Orders");
-                });
-
-            modelBuilder.Entity("NTD_Pie_Shop.Models.OrderDetail", b =>
-                {
-                    b.Property<int>("OrderDetailId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("Amount")
-                        .HasColumnType("int");
-
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PieId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("OrderDetailId");
-
-                    b.HasIndex("OrderId");
-
-                    b.HasIndex("PieId");
-
-                    b.ToTable("OrderDetails");
                 });
 
             modelBuilder.Entity("NTD_Pie_Shop.Models.Pie", b =>
@@ -322,9 +248,9 @@ namespace NTD_Pie_Shop.Migrations
                         });
                 });
 
-            modelBuilder.Entity("NTD_Pie_Shop.Models.ShoppingCartItem", b =>
+            modelBuilder.Entity("NTD_Pie_Shop.Models.ShoppingCardItem", b =>
                 {
-                    b.Property<int>("ShoppingCartItemId")
+                    b.Property<int>("ShoppingCardItemId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -335,29 +261,14 @@ namespace NTD_Pie_Shop.Migrations
                     b.Property<int?>("PieId")
                         .HasColumnType("int");
 
-                    b.Property<string>("ShoppingCartId")
+                    b.Property<string>("ShoppingCardId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ShoppingCartItemId");
+                    b.HasKey("ShoppingCardItemId");
 
                     b.HasIndex("PieId");
 
-                    b.ToTable("ShoppingCartItems");
-                });
-
-            modelBuilder.Entity("NTD_Pie_Shop.Models.OrderDetail", b =>
-                {
-                    b.HasOne("NTD_Pie_Shop.Models.Order", "Order")
-                        .WithMany("OrderDetails")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("NTD_Pie_Shop.Models.Pie", "Pie")
-                        .WithMany()
-                        .HasForeignKey("PieId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.ToTable("ShoppingCardItems");
                 });
 
             modelBuilder.Entity("NTD_Pie_Shop.Models.Pie", b =>
@@ -369,7 +280,7 @@ namespace NTD_Pie_Shop.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("NTD_Pie_Shop.Models.ShoppingCartItem", b =>
+            modelBuilder.Entity("NTD_Pie_Shop.Models.ShoppingCardItem", b =>
                 {
                     b.HasOne("NTD_Pie_Shop.Models.Pie", "Pie")
                         .WithMany()
