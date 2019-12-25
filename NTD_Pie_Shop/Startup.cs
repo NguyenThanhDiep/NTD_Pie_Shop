@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,10 +32,16 @@ namespace NTD_Pie_Shop
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddDbContext<AppDbContext>(option => option.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+            //Add default Identity
+            services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<AppDbContext>();
+
             services.AddScoped<ShoppingCart>(sp => ShoppingCart.GetCart(sp));
             //services to use Session
             services.AddHttpContextAccessor();
             services.AddSession();
+
+            //Due to Identity scaffolds use Razor Pages
+            services.AddRazorPages();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,11 +58,15 @@ namespace NTD_Pie_Shop
 
             //ASP.NET Core 3.0, Core 2.1 use .UseMVC()
             app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                //Due to Identity scaffold use Razor Pages
+                endpoints.MapRazorPages();
             });
         }
     }
